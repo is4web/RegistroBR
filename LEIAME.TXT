@@ -1,0 +1,228 @@
+#Declaração
+Este código é fornecido sem garantias, nós da is4Web Sistemas não nos responsabilizamos por danos ou problemas causados por ele.
+Código simples que um dia já foi utilizado para modelar o sistema Controller, publicado com a finalidade de ajudar a comunidade a desenvolver
+seu próprio código ou facilitar a integração com o fornecido.
+
+#Requisitos de sistema
+Perl >= 5.4
+Módulos do Perl
+	Net::IDN::Encode
+	Net::EPP::Client
+	Carp
+	Data::Dumper
+	XML::Simple
+	DBI
+
+#Teste online
+http://demo.is4web.com.br/RegistroBR/registro.cgi?funcao=querydom&dominio=domlivre.com.br
+http://demo.is4web.com.br/RegistroBR/registro.cgi?funcao=querydom&dominio=registro.com.br
+
+#Exemplo de utilização
+#Troque http://demo.is4web.com.br/RegistroBR/ pelo caminho aonde instalou o script
+curl -G 'http://demo.is4web.com.br/RegistroBR/registro.cgi?funcao=querydom&dominio=domlivre.com.br' 2>/dev/null| awk -F\| '{print $1"="$2}'
+
+#Certificados para o Ambiemte Beta do Epp
+ftp://ftp.registro.br/pub/libepp-nicbr/test-certificates/ 
+
+#Instalação
+Copie os arquivos para um servidor web com Perl e os módulos instalados
+Edite o arquivo config.conf
+Troque o arquivo client.pem pelo fornecido pela registro.BR
+
+#Resolução de problemas
+Adicione o campo 'debug' com o valor de 1 a 3
+Ex: 
+curl -G 'http://demo.is4web.com.br/RegistroBR/registro.cgi?funcao=querydom&dominio=domlivre.com.br&debug=3'
+
+#Dúvidas, problemas ou sugestões entre em contato no e-mail
+suporte at is4web.com
+
+#Manual
+Abaixo a descrição de todas as funções disponibilizadas no código
+Utilize o protocolo HTTP com o método GET.
+
+Todas as requisições devem vir sempre com o seguinte parametro:
+ - funcao (a funcao que vai executar)
+
+As funções, seus parametros e suas respostas:
+*Cada item em uma linha "\n", separadas por pipe "|" (variavel|resposta) e cada resposta separadas por duplo dois-pontos "::"
+ 
+- funcao=querydom
+  - dominio (nome do dominio pesquisado)
+- resposta
+  - disponivel (1 - sim, 0 - não, 2 - disponível com concorrentes)
+  - motivo (explicação)
+  - error (quando ouver erro vai aparecer uma mensagem);
+ 
+- funcao=queryorg
+  - cnpj  (cnpj com [ . / - ] da empresa pesquisada)
+- resposta
+  - disponivel (mesmo)
+  - motivo (mesmo)
+  - error (mesmo)
+ 
+- funcao=querycontact
+  - contatoid (id do contato do registro.br pesquisado)
+- resposta
+  - disponivel (mesmo)
+  - motivo (mesmo)
+  - error (mesmo)
+
+- funcao=addcontact
+  - name  (nome do contato)
+  - endereco  (endereco do contato)
+  - numero (numero do endereco)
+  - complemento (complemento do endereco)
+  - cidade (cidade do contato)
+  - estado (estado do contato)
+  - cep (cep com [ - ] deve ser válido com a cidade e estado)
+  - pais (pais dois/tres digitos ex: BR)
+  - telefone (telefone formato ex: 55.113838-4000)
+  - ramal (ramal do telefone informado)
+  - email (email do contato)
+- reposta  
+  - contato (id do contato criado)
+  - error (mesmo)
+ 
+ 
+ - funcao=addorg
+   - cnpj (mesmo)
+   - contato (id do contato que vai ser associado a essa emrpesa)
+   - empresa (Razao social)
+   - endereco (mesmo)
+   - numero (mesmo)
+   - cidade (mesmo)
+   - estado (mesmo)
+   - cep (mesmo)
+   - pais (mesmo)
+   - telefone (mesmo)
+   - ramal (mesmo)
+   - email (mesmo)
+   - reponsavel (Nome do responsavel pela empresa)
+ - resposta
+   - CNPJ (cnpj da empresa criado)
+   - error (mesmo)
+ 
+  - funcao=adddom
+    - dominio (mesmo)
+    - cnpj (mesmo)
+    - periodo ( número que indica a quantidade de unidade do registro)
+    - unidade ( y ou m ou d (ano, mês ou dia) )
+    - renew (1- renovacao automatica, 0 - renovacao manual)
+    - ns1 (nameserver principal)
+    - ns1ip (ip do nameserver principal, se necessario)
+    - ns2 (nameserver secundario)
+    - ns2ip (ip do nameserver secundario, se necessario)
+ - resposta
+   - ticket (numero do ticket para aguardar a criação do dominio)
+   - error (mesmo)
+ 
+  - funcao=poll
+    - opt  (opcoes 'req' para requisitar a proxima mensagem do poll ou 'ack' para ler apagar a mensagem do poll)
+    - msgid  (id da mensagem a ser apagada do poll que pode ser conseguido quando se faz um 'req')
+  - resposta
+    - msgid (id da mensagem)
+    - msg (conteudo da mensagem requisitada)
+    - Cada parametro retornado terá uma variavel com  seu nome
+    - error (mesmo)
+ 
+ - funcao=updatedom
+    ** os itens _r sao necessarios quando já existe um, em resumo, para update é necessário remover e adicionar
+   - dominio (mesmo)
+   - auto_renew (1- ativa auto renovacao, 0 - desativa auto renovacao)
+   - tech_id (muda o id do contato tecnico, se já tiver é necessario informar o que ja tem no _r logo abaixo)
+   - admin_id (muda o id do contato administrativo, mesmo acima)
+   - bill_id (muda o id do contato financeiro, mesmo acima)
+   - ns1 (mesmo)
+   - ns1ip (mesmo)
+   - ns2 (mesmo)
+   - ns2ip (mesmo)
+   - tech_id_r (remover o contato tecnico, é necessario remover o existente para colocar um novo)
+   - admin_id_r (mesmo para o contato administrativo)
+   - bill_id_r (mesmo para o contato financeiro)
+   - ns1_r (remover o nameserver principal, é necessário para adicionar outro)
+   - ns1ip_r (mesmo para ip do principal)
+   - ns2_r (mesmo para nameserver secundario)
+   - ns2ip_r (mesmo para ip do secundario)
+ - resposta
+   - update ( 1, se atualizar com sucesso, 2, se atualizar com pendencias)
+   - error (mesmo)
+
+ - funcao=updateorg
+    ** os itens _r sao necessarios quando já existe um, em resumo, para update é necessário remover e adicionar
+  - cnpj (mesmo)
+   - contato (id do contato novo)
+   - contato_r (id do contato a remover)
+   - empresa (mesmo)
+   - endereco (mesmo)
+   - numero (mesmo)
+   - cidade (mesmo)
+   - estado (mesmo)
+   - cep (mesmo)
+   - pais (mesmo)
+   - telefone (mesmo)
+   - ramal (mesmo)
+   - email (mesmo)
+   - reponsavel (mesmo)
+ - resposta
+   - update ( 1, se atualizar com sucesso, 2, se atualizar com pendencias)
+   - error (mesmo)
+ 
+ - funcao=updateticket
+    ** funcao server para atualizar as pendencias do ticket para que o dominio possa ser criado
+   - dominio (mesmo)
+   - ticket (numero do ticket do dominio criado)
+   - auto_renew (1- ativa auto renovacao, 0 - desativa auto renovacao)
+   - tech_id (muda o id do contato tecnico, se já tiver é necessario informar o que ja tem no _r logo abaixo)
+   - admin_id (muda o id do contato administrativo, mesmo acima)
+   - bill_id (muda o id do contato financeiro, mesmo acima)
+   - ns1 (mesmo)
+   - ns1ip (mesmo)
+   - ns2 (mesmo)
+   - ns2ip (mesmo)
+   - tech_id_r (remover o contato tecnico, é necessario remover o existente para colocar um novo)
+   - admin_id_r (mesmo para o contato administrativo)
+   - bill_id_r (mesmo para o contato financeiro)
+   - ns1_r (remover o nameserver principal, é necessário para adicionar outro)
+   - ns1ip_r (mesmo para ip do principal)
+   - ns2_r (mesmo para nameserver secundario)
+   - ns2ip_r (mesmo para ip do secundario)
+ - resposta
+   - update ( 1, se atualizar com sucesso)
+   - error (mesmo)
+ 
+ - funcao=infoticket
+   - dominio (mesmo)
+   - ticket (ticket do dominio)
+ - resposta
+   - msg (mensagem da situacao do ticket)
+   - pendente ( 1 - ticket com pendencias , 0 - sem pendencias)
+   - error (mesmo)
+
+ - funcao=infodom
+   - dominio (mesmo)
+ - reposta
+   - resposta dinâmica de acordo com protocolo EPP ftp://ftp.registro.br/internet-drafts/draft-hollenbeck-epp-rfc3731bis-05.txt
+   - error (mesmo)
+
+ - funcao=infocontact
+   - contatoid (mesmo)
+ - reposta
+   - resposta dinâmica de acordo com protocolo EPP ftp://ftp.registro.br/internet-drafts/draft-hollenbeck-epp-rfc3733bis-06.txt
+   - error (mesmo)
+
+ - funcao=infoorg
+   - cnpj (mesmo)
+ - reposta
+   - resposta dinâmica de acordo com protocolo EPP ftp://ftp.registro.br/pub/libepp-nicbr/draft-neves-epp-brorg-03.txt    
+  - error (mesmo)
+ 
+ - funcao=renewdom
+   - dominio (mesmo)
+   - data_exp (data de expiracao atual do dominio)
+   - qtd (quantidade em numero da renovacao)
+   - tipo (unidade da quantidade ex: y) 
+   (ex: qtd=1&tipo=y) renova por um ano. 
+ - resposta
+   - data_exp (nova data de expiracao)
+   - error (mesmo)

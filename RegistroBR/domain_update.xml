@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<epp xmlns="urn:ietf:params:xml:ns:epp-1.0"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0
+     epp-1.0.xsd">
+  <command>
+    <update>
+      <domain:update
+       xmlns:domain="urn:ietf:params:xml:ns:domain-1.0"
+       xsi:schemaLocation="urn:ietf:params:xml:ns:domain-1.0
+       domain-1.0.xsd">
+        <domain:name>{domain_name}</domain:name>
+        <domain:add>
+          <domain:ns>
+            <domain:hostAttr>
+              <domain:hostName>{domain_ns1}</domain:hostName>
+              <domain:hostAddr ip="v4">{domain_ip1v4}</domain:hostAddr>
+              <domain:hostAddr ip="v6">{domain_ip1v6}</domain:hostAddr>
+            </domain:hostAttr>
+            <domain:hostAttr>
+              <domain:hostName>{domain_ns2}</domain:hostName>
+              <domain:hostAddr ip="v4">{domain_ip2v4}</domain:hostAddr>
+              <domain:hostAddr ip="v6">{domain_ip2v6}</domain:hostAddr>
+            </domain:hostAttr>
+            <domain:hostAttr>
+              <domain:hostName>{domain_ns3}</domain:hostName>
+              <domain:hostAddr ip="v4">{domain_ip3v4}</domain:hostAddr>
+              <domain:hostAddr ip="v6">{domain_ip3v6}</domain:hostAddr>
+            </domain:hostAttr>
+            <domain:hostAttr>
+              <domain:hostName>{domain_ns4}</domain:hostName>
+              <domain:hostAddr ip="v4">{domain_ip4v4}</domain:hostAddr>
+              <domain:hostAddr ip="v6">{domain_ip4v6}</domain:hostAddr>
+            </domain:hostAttr>
+            <domain:hostAttr>
+              <domain:hostName>{domain_ns5}</domain:hostName>
+              <domain:hostAddr ip="v4">{domain_ip5v4}</domain:hostAddr>
+              <domain:hostAddr ip="v6">{domain_ip5v6}</domain:hostAddr>
+            </domain:hostAttr>
+          </domain:ns>
+          <domain:contact type="tech">{domain_tech}</domain:contact>
+          <domain:contact type="admin">{domain_admin}</domain:contact>
+          <domain:contact type="billing">{domain_billing}</domain:contact>
+          <domain:status s="{domain_status}" lang="pt">{domain_status_desc}</domain:status>
+        </domain:add>
+        <domain:rem>
+          <domain:ns>
+            <domain:hostAttr>
+              <domain:hostName>{domain_ns1_r}</domain:hostName>
+              <domain:hostAddr ip="v4">{domain_ip1v4_r}</domain:hostAddr>
+              <domain:hostAddr ip="v6">{domain_ip1v6_r}</domain:hostAddr>
+            </domain:hostAttr>
+            <domain:hostAttr>
+              <domain:hostName>{domain_ns2_r}</domain:hostName>
+              <domain:hostAddr ip="v4">{domain_ip2v4_r}</domain:hostAddr>
+              <domain:hostAddr ip="v6">{domain_ip2v6_r}</domain:hostAddr>
+            </domain:hostAttr>
+            <domain:hostAttr>
+              <domain:hostName>{domain_ns3_r}</domain:hostName>
+              <domain:hostAddr ip="v4">{domain_ip3v4_r}</domain:hostAddr>
+              <domain:hostAddr ip="v6">{domain_ip3v6_r}</domain:hostAddr>
+            </domain:hostAttr>
+            <domain:hostAttr>
+              <domain:hostName>{domain_ns4_r}</domain:hostName>
+              <domain:hostAddr ip="v4">{domain_ip4v4_r}</domain:hostAddr>
+              <domain:hostAddr ip="v6">{domain_ip4v6_r}</domain:hostAddr>
+            </domain:hostAttr>
+            <domain:hostAttr>
+              <domain:hostName>{domain_ns5_r}</domain:hostName>
+              <domain:hostAddr ip="v4">{domain_ip5v4_r}</domain:hostAddr>
+              <domain:hostAddr ip="v6">{domain_ip5v6_r}</domain:hostAddr>
+            </domain:hostAttr>
+          </domain:ns>
+          <domain:contact type="tech">{domain_tech_r}</domain:contact>
+          <domain:contact type="admin">{domain_admin_r}</domain:contact>
+          <domain:contact type="billing">{domain_billing_r}</domain:contact>
+          <domain:status s="{domain_status_r}" lang="pt">{domain_status_desc_r}</domain:status>
+        </domain:rem>
+#       <domain:chg>
+#		   {domain_chg}
+#		</domain:chg>
+      </domain:update>
+    </update>
+    <extension>
+      <brdomain:update
+       xmlns:brdomain="urn:ietf:params:xml:ns:brdomain-1.0"
+       xsi:schemaLocation="urn:ietf:params:xml:ns:brdomain-1.0
+       brdomain-1.0.xsd">
+       <brdomain:ticketNumber>{ticket_id}</brdomain:ticketNumber>
+       <brdomain:chg>
+#         <brdomain:releaseProcessFlags flag2="1"/>
+         <brdomain:autoRenew active="{auto_renew}"/>
+       </brdomain:chg>
+      </brdomain:update>
+    </extension>
+    <clTRID>{sysid}</clTRID>
+  </command>
+</epp>

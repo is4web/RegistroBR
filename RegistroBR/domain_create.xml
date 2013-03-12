@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<epp xmlns="urn:ietf:params:xml:ns:epp-1.0"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0
+     epp-1.0.xsd">
+  <command>
+    <create>
+      <domain:create
+       xmlns:domain="urn:ietf:params:xml:ns:domain-1.0"
+       xsi:schemaLocation="urn:ietf:params:xml:ns:domain-1.0
+       domain-1.0.xsd">
+        <domain:name>{domain_name}</domain:name>
+        <domain:period unit="{domain_unit}">{domain_period}</domain:period>
+        <domain:ns>
+          <domain:hostAttr>
+            <domain:hostName>{domain_ns1}</domain:hostName>
+            <domain:hostAddr ip="v4">{domain_ip1v4}</domain:hostAddr>
+            <domain:hostAddr ip="v6">{domain_ip1v6}</domain:hostAddr>
+          </domain:hostAttr>
+          <domain:hostAttr>
+            <domain:hostName>{domain_ns2}</domain:hostName>
+            <domain:hostAddr ip="v4">{domain_ip2v4}</domain:hostAddr>
+            <domain:hostAddr ip="v6">{domain_ip2v6}</domain:hostAddr>
+          </domain:hostAttr>
+          <domain:hostAttr>
+            <domain:hostName>{domain_ns3}</domain:hostName>
+            <domain:hostAddr ip="v4">{domain_ip3v4}</domain:hostAddr>
+            <domain:hostAddr ip="v6">{domain_ip3v6}</domain:hostAddr>
+          </domain:hostAttr>
+          <domain:hostAttr>
+            <domain:hostName>{domain_ns4}</domain:hostName>
+            <domain:hostAddr ip="v4">{domain_ip4v4}</domain:hostAddr>
+            <domain:hostAddr ip="v6">{domain_ip4v6}</domain:hostAddr>
+          </domain:hostAttr>
+          <domain:hostAttr>
+            <domain:hostName>{domain_ns5}</domain:hostName>
+            <domain:hostAddr ip="v4">{domain_ip5v4}</domain:hostAddr>
+            <domain:hostAddr ip="v6">{domain_ip5v6}</domain:hostAddr>
+          </domain:hostAttr>
+         </domain:ns>
+#        <domain:contact type="admin">fan</domain:contact>
+#        <domain:contact type="tech">fan</domain:contact>
+#        <domain:contact type="billing">fan</domain:contact>
+#        <domain:authInfo>
+#          <domain:pw>2fooBAR</domain:pw>
+#        </domain:authInfo>
+      </domain:create>
+    </create>
+    <extension>
+      <brdomain:create
+       xmlns:brdomain="urn:ietf:params:xml:ns:brdomain-1.0"
+       xsi:schemaLocation="urn:ietf:params:xml:ns:brdomain-1.0
+       brdomain-1.0.xsd">
+           <brdomain:organization>{org_id}</brdomain:organization>
+#           <brdomain:releaseProcessFlags flag1="1"/>
+           <brdomain:autoRenew active="{auto_renew}"/>
+      </brdomain:create>
+    </extension>
+    <clTRID>{sysid}</clTRID>
+  </command>
+</epp>
