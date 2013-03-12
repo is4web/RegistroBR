@@ -11,7 +11,6 @@ Módulos do Perl
 	Carp
 	Data::Dumper
 	XML::Simple
-	DBI
 
 #Teste online
 http://demo.is4web.com.br/RegistroBR/registro.cgi?funcao=querydom&dominio=domlivre.com.br
